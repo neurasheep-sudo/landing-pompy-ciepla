@@ -67,9 +67,8 @@ input[type="tel"] {
     font-size: 16px;
 }
 
-/* Ссылка в виде кнопки и кнопка отправки */
 button[type="submit"],
-a[href="#order-form"] {
+a[href="#pakiety"] {
     display: inline-block;
     width: 100%;
     text-align: center;
@@ -78,16 +77,15 @@ a[href="#order-form"] {
     padding: 14px;
     font-size: 16px;
     font-weight: bold;
-    text-decoration: none;
+    border-radius: 8px;
     border: none;
-    border-radius: 6px;
     cursor: pointer;
-    margin-top: 12px;
+    text-decoration: none;
+    box-sizing: border-box;
 }
 
-/* Эффект при наведении */
 button[type="submit"]:hover,
-a[href="#order-form"]:hover {
+a[href="#pakiety"]:hover {
     background-color: #0052a3;
 }
 /* Выравнивание элементов шапки по краям */
@@ -262,4 +260,33 @@ a[href="#order-form"]:hover {
     background-color: #e1e4e8;
     color: #333333;
     flex: 1;
+}
+/* Выделение карточки квиза */
+.card.quiz-card {
+    border: 2px dashed #0066cc;
+    background-color: #f0f7ff;
+}
+
+.start-quiz-btn {
+    background-color: #0066cc;
+    color: #ffffff;
+    border: none;
+    padding: 10px;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.start-quiz-btn:hover {
+    background-color: #0052a3;
+}
+@media (min-width: 500px) {
+    .pricing-grid {
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    }
+}
+/* Скрываем секцию квиза до клика по тарифу */
+#order-form {
+    display: none;
 }
