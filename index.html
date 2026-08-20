@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Montaż Pomp Ciepła</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header>
+    <div class="header-container">
+        <p class="logo"><strong>ThermoPro</strong></p>
+        <a href="tel:+48123456789" class="phone-link">+48 123 456 789</a>
+    </div>
+</header>
+
+    <main>
+        <!-- Секция Hero (Главный экран) -->
+        <section>
+            <h1>Montaż pomp ciepła z dofinansowaniem do 100%</h1>
+            <p>Obniż rachunki za ogrzewanie od pierwszego miesiąca. Bezpłatny audyt i wycena w 24h.</p>
+            <a href="#order-form">Zamów bezpłatną wycenę</a>
+        </section>
+
+        <!-- Секция тарифов на CSS Grid -->
+        <section>
+            <h2>Wybierz pakiet dopasowany do Twojego domu</h2>
+            <div class="pricing-grid">
+                
+                <div class="card">
+                    <p class="card-tag">Domy do 120 m²</p>
+                    <h3 class="card-title">Pakiet Basic</h3>
+                    <p class="card-price">od 18 900 zł</p>
+                    <ul class="card-features">
+                        <li>Pompa ciepła 6 kW</li>
+                        <li>Montaż w 1 dzień</li>
+                        <li>Podstawowy audyt</li>
+                    </ul>
+                    <button type="button" class="select-plan-btn" data-plan="Basic (до 120 м²)">Wybierz pakiet</button>
+                </div>
+
+                <div class="card popular">
+                    <p class="card-tag highlight">Najczęściej wybierany</p>
+                    <h3 class="card-title">Pakiet Comfort</h3>
+                    <p class="card-price">od 26 500 zł</p>
+                    <ul class="card-features">
+                        <li>Pompa ciepła 9 kW</li>
+                        <li>Kompletny montaż z hydrauliką</li>
+                        <li>Pełna pomoc w dotacji 100%</li>
+                    </ul>
+                    <button type="button" class="select-plan-btn" data-plan="Comfort (до 200 м²)">Wybierz pakiet</button>
+                </div>
+
+                <div class="card">
+                    <p class="card-tag">Domy pow. 200 m²</p>
+                    <h3 class="card-title">Pakiet Premium</h3>
+                    <p class="card-price">od 34 000 zł</p>
+                    <ul class="card-features">
+                        <li>Pompa ciepła 12+ kW</li>
+                        <li>Zasobnik CWU 300L</li>
+                        <li>Serwis 24/7 i 7 lat gwarancji</li>
+                    </ul>
+                    <button type="button" class="select-plan-btn" data-plan="Premium (200+ м²)">Wybierz pakiet</button>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Секция мультистеп-квиза -->
+        <section id="order-form">
+            <h2>Dobierz pompę ciepła w 3 krokach</h2>
+            
+            <form id="leadForm">
+                
+                <!-- Шаг 1: Площадь дома -->
+                <div class="quiz-step active" data-step="1">
+                    <p class="step-title">Krok 1 z 3: Jaka jest powierzchnia Twojego domu?</p>
+                    <div class="quiz-options">
+                        <label class="quiz-option">
+                            <input type="radio" name="area" value="do 100 m²">
+                            <span>do 100 m²</span>
+                        </label>
+                        <label class="quiz-option">
+                            <input type="radio" name="area" value="100 - 180 m²">
+                            <span>100 - 180 m²</span>
+                        </label>
+                        <label class="quiz-option">
+                            <input type="radio" name="area" value="180 - 250 m²">
+                            <span>180 - 250 m²</span>
+                        </label>
+                        <label class="quiz-option">
+                            <input type="radio" name="area" value="powyżej 250 m²">
+                            <span>powyżej 250 m²</span>
+                        </label>
+                    </div>
+                    <button type="button" class="btn-next" onclick="nextStep(1)">Dalej &rarr;</button>
+                </div>
+
+                <!-- Шаг 2: Текущее отопление -->
+                <div class="quiz-step" data-step="2">
+                    <p class="step-title">Krok 2 z 3: Czym aktualnie ogrzewasz dom?</p>
+                    <div class="quiz-options">
+                        <label class="quiz-option">
+                            <input type="radio" name="heating" value="Węgiel / Ekogroszek" >
+                            <span>Węgiel / Ekogroszek</span>
+                        </label>
+                        <label class="quiz-option">
+                            <input type="radio" name="heating" value="Gaz">
+                            <span>Gaz ziemny</span>
+                        </label>
+                        <label class="quiz-option">
+                            <input type="radio" name="heating" value="Nowy budynek (brak)">
+                            <span>Nowy budynek (w budowie)</span>
+                        </label>
+                    </div>
+                    <div class="step-nav">
+                        <button type="button" class="btn-prev" onclick="prevStep(2)">&larr; Wstecz</button>
+                        <button type="button" class="btn-next" onclick="nextStep(2)">Dalej &rarr;</button>
+                    </div>
+                </div>
+
+                <!-- Шаг 3: Контакты и отправка -->
+                <div class="quiz-step" data-step="3">
+                    <p class="step-title">Krok 3 z 3: Gdzie przesłać bezpłatny audyt?</p>
+                    
+                    <div class="form-group">
+                        <label for="name">Twoje imię:</label>
+                        <input type="text" id="name" name="user_name" placeholder="np. Jan Kowalski" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="city">Twoje miasto:</label>
+                        <input type="text" id="city" name="user_city" placeholder="np. Gliwice" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="phone">Numer telefonu:</label>
+                        <input type="tel" id="phone" name="user_phone" placeholder="+48 123 456 789" required>
+                    </div>
+
+                    <!-- Скрытое поле для тарифа, если был клик сверху -->
+                    <input type="hidden" id="selectedPlan" name="user_plan" value="Dobór z kwizu">
+
+                    <div class="step-nav">
+                        <button type="button" class="btn-prev" onclick="prevStep(3)">&larr; Wstecz</button>
+                        <button type="submit" id="submitBtn">Odbierz wycenę</button>
+                    </div>
+                </div>
+
+            </form>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 ThermoPro. Wszelkie prawa zastrzeżone.</p>
+    </footer>
+<!-- Подключаем JavaScript перед концом body -->
+    <script src="script.js"></script>
+</body>
+</html>
