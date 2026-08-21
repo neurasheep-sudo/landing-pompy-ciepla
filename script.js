@@ -1,7 +1,11 @@
-const BOT_TOKEN = '8834400777:AAF0R1IudhaJ8RY_LSNTPfOCBsqFg4rGZSw';
-const CHAT_ID = '807961898';
+// URL твоего защищенного бессерверного шлюза
+const WORKER_URL = 'https://round-shadow-fdc2.neura-sheep.workers.dev';
 
-// Переключение шагов квиза
+// Считываем UTM-метки из URL при загрузке страницы
+const urlParams = new URLSearchParams(window.location.search);
+const utmSource = urlParams.get('utm_source') || 'Direct / Organic';
+const utmCampaign = urlParams.get('utm_campaign') || 'none';
+// 1. Функции переключения шагов квиза
 function nextStep(currentStep) {
     const currentStepEl = document.querySelector(`.quiz-step[data-step="${currentStep}"]`);
     const checkedOption = currentStepEl.querySelector('input[type="radio"]:checked');
@@ -27,20 +31,25 @@ function prevStep(currentStep) {
     }
 }
 
-// Элементы
+// 2. Элементы интерфейса
 const planButtons = document.querySelectorAll('.select-plan-btn');
 const selectedPlanInput = document.getElementById('selectedPlan');
 const startQuizBtn = document.querySelector('.start-quiz-btn');
 const orderFormSection = document.getElementById('order-form');
 
-// 1. Клик по тарифам (1, 2, 3) -> открываем форму и сразу Шаг 3
+// Клик по готовым тарифам (1, 2, 3) -> сброс квиза, открытие формы и сразу Шаг 3
 planButtons.forEach(button => {
-    button.addEventListener('click', function() {
+    button.addEventListener('click', function () {
+        // Очищаем все radio-кнопки
+        document.querySelectorAll('input[type="radio"]').forEach(radio => {
+            radio.checked = false;
+        });
+
         const chosenPlan = this.getAttribute('data-plan');
         if (selectedPlanInput) {
             selectedPlanInput.value = chosenPlan;
         }
-        
+
         if (orderFormSection) {
             orderFormSection.style.display = 'block';
         }
@@ -50,20 +59,20 @@ planButtons.forEach(button => {
         if (step3) {
             step3.classList.add('active');
         }
-        
+
         if (orderFormSection) {
             orderFormSection.scrollIntoView({ behavior: 'smooth' });
         }
     });
 });
 
-// 2. Клик по карточке 4 "Indywidualny dobór" -> открываем форму и Шаг 1
+// Клик по 4-й карточке "Indywidualny dobór" -> открытие формы и Шаг 1
 if (startQuizBtn) {
-    startQuizBtn.addEventListener('click', function() {
+    startQuizBtn.addEventListener('click', function () {
         if (selectedPlanInput) {
             selectedPlanInput.value = 'Indywidualny dobór (z kwizu)';
         }
-        
+
         if (orderFormSection) {
             orderFormSection.style.display = 'block';
         }
@@ -73,7 +82,7 @@ if (startQuizBtn) {
         if (step1) {
             step1.classList.add('active');
         }
-        
+
         if (orderFormSection) {
             orderFormSection.scrollIntoView({ behavior: 'smooth' });
         }
@@ -91,27 +100,24 @@ if (form) {
         submitBtn.disabled = true;
         submitBtn.innerText = 'Wysyłanie...';
 
-        const area = document.querySelector('input[name="area"]:checked')?.value || 'Не указано';
-        const heating = document.querySelector('input[name="heating"]:checked')?.value || 'Не указано';
-        const plan = selectedPlanInput ? selectedPlanInput.value : 'Не указано';
-
-        const name = document.getElementById('name').value;
-        const city = document.getElementById('city').value;
-        const phone = document.getElementById('phone').value;
-
-        const message = `🔥 *Nowy lead z kwizu!*\n\n👤 *Imię:* ${name}\n📍 *Miasto:* ${city}\n📞 *Telefon:* ${phone}\n\n🏡 *Powierzchnia:* ${area}\n🔥 *Aktualne ogrzewanie:* ${heating}\n📦 *Pakiet:* ${plan}`;
+        const payload = {
+            name: document.getElementById('name').value,
+            city: document.getElementById('city').value,
+            phone: document.getElementById('phone').value,
+            plan: selectedPlanInput ? selectedPlanInput.value : 'Nie wybrano',
+            area: document.querySelector('input[name="area"]:checked')?.value || '',
+            heating: document.querySelector('input[name="heating"]:checked')?.value || '',
+            utmSource: utmSource,
+            utmCampaign: utmCampaign
+        };
 
         try {
-            const response = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+            const response = await fetch(WORKER_URL, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({
-                    chat_id: CHAT_ID,
-                    text: message,
-                    parse_mode: 'Markdown'
-                })
+                body: JSON.stringify(payload)
             });
 
             if (response.ok) {
